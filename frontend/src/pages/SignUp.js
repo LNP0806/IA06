@@ -15,7 +15,6 @@ export default function SignUp() {
   const mutation = useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
-      alert("Đăng ký thành công!");
       reset();
     },
     onError: (err) => {
