@@ -6,31 +6,24 @@ export default function Login({ setUser }) {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [serverMessage, setServerMessage] = useState(null); // success / error message
+  const [serverMessage, setServerMessage] = useState(null);
 
   const onSubmit = (data) => {
     setServerMessage(null);
     setLoading(true);
 
-    // simulate async "login"
     setTimeout(() => {
       setLoading(false);
 
-      // Option A: accept any non-empty credentials as success
       const success = data.email && data.password;
-
-      // Option B: to require a specific mock user, uncomment:
-      // const success = data.email === "admin@gmail.com" && data.password === "123456";
 
       if (success) {
         setServerMessage({ type: "success", text: "Login successful. Redirecting..." });
 
-        // if parent passed setUser, set it (useful for protected routes)
         if (typeof setUser === "function") {
           setUser({ email: data.email });
         }
 
-        // redirect after short delay
         setTimeout(() => navigate("/"), 900);
       } else {
         setServerMessage({ type: "error", text: "Invalid credentials (mock)." });

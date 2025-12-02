@@ -6,12 +6,10 @@ import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 
 export default function App() {
-  // Mock auth state
   const [user, setUser] = useState(null);
 
   const location = useLocation();
 
-  // Component bảo vệ route Home
   const PrivateRoute = ({ children }) => {
     return user ? children : <Navigate to="/login" state={{ from: location }} />;
   };

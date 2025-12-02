@@ -8,10 +8,24 @@ export default function SignUp() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
+    reset,
   } = useForm();
 
   const mutation = useMutation({
     mutationFn: registerUser,
+    onSuccess: () => {
+      alert("Đăng ký thành công!");
+      reset();
+    },
+    onError: (err) => {
+      const errorMessage = err.response?.data?.message || err.message || "Lỗi đăng ký";
+      
+      setError("email", {
+        type: "manual",
+        message: errorMessage,
+      });
+    },
   });
 
   const onSubmit = (data) => mutation.mutate(data);

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, HttpException, HttpStatus } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -8,22 +8,18 @@ export class UserController {
   @Post('register')
   async register(@Body() body: { email: string; password: string }) {
     const { email, password } = body;
+    
     if (!email || !password) {
-      return { success: false, message: 'Email và password là bắt buộc' };
+      throw new HttpException('Email và password là bắt buộc', HttpStatus.BAD_REQUEST);
     }
+    
+    const user = await this.userService.register(email, password);
 
-    try {
-      const user = await this.userService.register(email, password);
-      return { success: true, user: { email: user.email, createdAt: user.createdAt } };
-    } catch (err: any) {
-      return { success: false, message: err.message };
-    }
+    return { 
+      success: true, 
+      user: { 
+        email: user.email 
+      } 
+    };
   }
-
-  // user.controller.ts
-  @Post('login')
-  async login(@Body() body: any) {
-    return this.userService.login(body);
-  }
-
 }
