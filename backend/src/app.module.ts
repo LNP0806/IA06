@@ -8,7 +8,7 @@ import { UserModule } from './user/user.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.MONGO_URI_LOCAL as string),
+    MongooseModule.forRoot(process.env.MONGO_URI as string),
     UserModule,
   ],
 })
